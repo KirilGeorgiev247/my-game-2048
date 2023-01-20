@@ -86,25 +86,27 @@ void writeScore(const char* nickname, const size_t playerScore, const int boardS
 
 		int iterations = count < 5 ? count + 1 : count;
 
-		for (int i = 0; i < iterations; i++)
+		if (!myFileToWrite.is_open())
 		{
-			const char* currLine = previousBest5Scores[i];
-
-			if (currLine[0] != '\0')
+			std::cout << "Data was not saves successfully" << std::endl;
+		}
+		else
+		{
+			for (int i = 0; i < iterations; i++)
 			{
-				if (i != iterations - 1)
-				{
-					myFileToWrite << currLine << comma;
-				}
-				else
-				{
-					myFileToWrite << currLine;
-				}
-			}
+				const char* currLine = previousBest5Scores[i];
 
-			if (!myFileToWrite)
-			{
-				std::cout << "Data was not saves successfully";
+				if (currLine[0] != '\0')
+				{
+					if (i != iterations - 1)
+					{
+						myFileToWrite << currLine << comma;
+					}
+					else
+					{
+						myFileToWrite << currLine;
+					}
+				}
 			}
 		}
 
@@ -122,12 +124,14 @@ void writeScore(const char* nickname, const size_t playerScore, const int boardS
 		std::ofstream myFileToWrite;
 		myFileToWrite.open(fileName);
 
-		const char* newLineAsStr = newLine;
-		myFileToWrite << newLineAsStr;
-
-		if (!myFileToWrite)
+		if (!myFileToWrite.is_open())
 		{
-			std::cout << "Data was not saves successfully";
+			std::cout << "Data was not saved successfully" << std::endl;
+		}
+		else
+		{
+			const char* newLineAsStr = newLine;
+			myFileToWrite << newLineAsStr;
 		}
 
 		myFileToWrite.close();
@@ -149,30 +153,37 @@ char** getBestFiveScores(const int boardSize, int& count)
 
 	char** result = new char* [playersWithBestScoresCount];
 
-	for (int i = 0; i < playersWithBestScoresCount; i++)
+	if (!myFile.is_open())
 	{
-		result[i] = new char[fileLineMaxLength];
+		std::cout << "Data was not saved successfully" << std::endl;
 	}
-
-	int resultIndex = { 0 };
-
-	while (true)
+	else
 	{
-		if (myFile.eof())
+		for (int i = 0; i < playersWithBestScoresCount; i++)
 		{
-			break;
+			result[i] = new char[fileLineMaxLength];
 		}
 
-		char* currLine = new char[fileLineMaxLength];
-		myFile.getline(currLine, fileLineMaxLength, ',');
+		int resultIndex = { 0 };
 
-		if (currLine[0] == '\0')
+		while (true)
 		{
-			break;
-		}
+			if (myFile.eof())
+			{
+				break;
+			}
 
-		result[resultIndex++] = currLine;
-		count++;
+			char* currLine = new char[fileLineMaxLength];
+			myFile.getline(currLine, fileLineMaxLength, ',');
+
+			if (currLine[0] == '\0')
+			{
+				break;
+			}
+
+			result[resultIndex++] = currLine;
+			count++;
+		}
 	}
 
 	myFile.close();
@@ -187,24 +198,28 @@ int getFileLength(const char* fileName)
 
 	myFile.open(fileName, std::ios::in);
 
-	if (!myFile)
+	int counter = { 0 };
+
+	if (!myFile.is_open())
 	{
 		return 0;
 	}
-
-	char ch;
-	int counter = { 0 };
-
-	while (true)
+	else
 	{
-		myFile >> ch;
+		char ch;
 
-		if (myFile.eof())
+		while (true)
 		{
-			break;
+			myFile >> ch;
+
+			if (myFile.eof())
+			{
+				break;
+			}
+
+			counter++;
 		}
 
-		counter++;
 	}
 
 	myFile.close();

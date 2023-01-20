@@ -503,6 +503,7 @@ bool isThereValidTurn(int** board, const int boardSize)
 // gets random square on the board with coordinates row and col indexes
 Square getRandomSquareOnBoard(int** board, const int boardSize)
 {
+	// seeding the random function so it does not return the same result every time
 	srand((unsigned int)time(NULL));
 
 	int rowRandomIndex = rand() % boardSize;

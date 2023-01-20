@@ -65,7 +65,11 @@ size_t getScoreOutOfLine(const char* line)
 		score[scoreIndex++] = line[lineIndex++];
 	}
 
-	return getCastedNumAsInt(score, scoreIndex);
+	size_t result = getCastedNumAsInt(score, scoreIndex);
+
+	delete[] score;
+
+	return result;
 }
 
 // gets nickname out of line of type nickname-score and returns it
