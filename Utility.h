@@ -1,3 +1,17 @@
+/**
+*
+* Solution to course project # 4
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Kiril Georgiev
+* @idnumber 8MI0600268* @compiler Visual Studio
+*
+* <header for utility file>
+*
+*/
+
 #pragma once
 
 // casts num from string to number
@@ -29,6 +43,9 @@ void printBest5(char** best5Scores, const int scoresCount);
 
 // reads input and validates it until is pass the checks
 void validateBoardsizeInput(int& boardSize);
+
+// checks if there is an existing player with this nickname
+bool checkForExistingPlayer(char* nickname, const int boardSize);
 
 // reads input and validates it until is pass the checks
 void validateNicknameInput(char* nickname, const int boardSize);

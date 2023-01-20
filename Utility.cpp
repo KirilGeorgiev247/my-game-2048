@@ -1,3 +1,17 @@
+/**
+*
+* Solution to course project # 4
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Kiril Georgiev
+* @idnumber 8MI0600268* @compiler Visual Studio
+*
+* <commong helping functions>
+*
+*/
+
 #include "Utility.h"
 #include "FileHelper.h"
 #include <iostream>
@@ -263,26 +277,7 @@ void validateNicknameInput(char* nickname, const int boardSize)
 			isFirstTimeReadingNickname = false;
 		}
 
-		int count = { 0 };
-		char** best5players = getBestFiveScores(boardSize, count);
-
-		for (int i = 0; i < count; i++)
-		{
-			if (compareStrings(nickname, getNicknameOutOfLine(best5players[i])))
-			{
-				isThereExistingNickname = true;
-				std::cout << "There is one existing player with the same nickname" << std::endl;
-
-				for (int i = 0; i < count; i++)
-				{
-					delete[] best5players[i];
-				}
-
-				delete best5players;
-
-				break;
-			}
-		}
+		isThereExistingNickname = checkForExistingPlayer(nickname, boardSize);
 
 		if (isThereExistingNickname)
 		{
@@ -295,7 +290,9 @@ void validateNicknameInput(char* nickname, const int boardSize)
 			std::cout << "Enter valid nickname ( length between 3 and 20): ";
 			std::cin >> nickname;
 
-			if (getStrLen(nickname) >= nicknameMinLength && getStrLen(nickname) <= nicknameMaxLength)
+			isThereExistingNickname = checkForExistingPlayer(nickname, boardSize);
+
+			if (getStrLen(nickname) >= nicknameMinLength && getStrLen(nickname) <= nicknameMaxLength && !isThereExistingNickname)
 			{
 				break;
 			}
@@ -305,6 +302,33 @@ void validateNicknameInput(char* nickname, const int boardSize)
 			break;
 		}
 	}
+}
+
+// checks if there is an existing player with this nickname
+bool checkForExistingPlayer(char * nickname, const int boardSize)
+{
+	bool isThereExistingPlayer = false;
+	int count = { 0 };
+	char** best5players = getBestFiveScores(boardSize, count);
+
+	for (int i = 0; i < count; i++)
+	{
+		if (compareStrings(nickname, getNicknameOutOfLine(best5players[i])))
+		{
+			isThereExistingPlayer = true;
+			std::cout << "There is one existing player with the same nickname" << std::endl;
+			break;
+		}
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		delete[] best5players[i];
+	}
+
+	delete best5players;
+
+	return isThereExistingPlayer;
 }
 
 // reads input and validates it until is pass the checks

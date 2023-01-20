@@ -1,3 +1,17 @@
+/**
+*
+* Solution to course project # 4
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Kiril Georgiev
+* @idnumber 8MI0600268* @compiler Visual Studio
+*
+* <header for math functions>
+*
+*/
+
 #pragma once
 
 // int casting makes it works differently from real log function (f.e. 2.6 will return 2)
