@@ -6,7 +6,6 @@
 const int maxBoardSize = 10;
 const int shortFileNameLength = 8;
 const int longFileNameLength = 10;
-
 const char comma = ',';
 const char dash = '-';
 const int fileLineMaxLength = 100;
@@ -187,6 +186,11 @@ int getFileLength(const char* fileName)
 	std::fstream myFile;
 
 	myFile.open(fileName, std::ios::in);
+
+	if (!myFile)
+	{
+		return 0;
+	}
 
 	char ch;
 	int counter = { 0 };
